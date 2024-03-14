@@ -14,8 +14,6 @@ import java.util.stream.Stream;
 
 import static java.util.List.copyOf;
 
-@Getter
-//@RequiredArgsConstructor
 public class ModifierCommande {
 
     private final CommandeRepository commandeRepository;
@@ -36,8 +34,6 @@ public class ModifierCommande {
 
     public Commande ajouterProduit(Long idCommande, List<Long> idProduits) {
         Commande commande = commandeRepository.findOne(idCommande);
-
-
         return commande.withProduits(Stream.concat(commande.getProduits().stream(), idProduits.stream()).toList());
 //        commandeRepository.save(commande);
     }

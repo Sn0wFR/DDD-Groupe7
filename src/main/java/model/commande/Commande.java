@@ -7,9 +7,11 @@ import lombok.With;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@Builder
+import static model.commande.Commande.Statut.TERMINER;
+
 @Value
+@Builder
+@RequiredArgsConstructor
 public class Commande {
 
     @With
@@ -28,6 +30,9 @@ public class Commande {
         TERMINER
     }
 
+    public boolean isCommandeArchivable(Commande commande) {
+        return TERMINER.equals(commande.statut);
+    }
 }
 
 
