@@ -1,6 +1,5 @@
 package use_case.commande;
 
-import model.commande.Archive;
 import model.commande.Commande;
 import model.commande.CommandeArchiveRepository;
 import model.commande.CommandeRepository;

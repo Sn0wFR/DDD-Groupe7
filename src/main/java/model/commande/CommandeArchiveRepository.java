@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CommandeArchiveRepository {
 
-    void save(Commande commande);
+    Archive save(Commande commande);
 
     List<Archive> findAll();
 

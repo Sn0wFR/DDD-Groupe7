@@ -2,17 +2,13 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
-import model.commande.FakeCommandeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +23,7 @@ public class ModifierCommandeTest {
 
     List<Long> idProduits = List.of(1L,2L,3L);
     @Mock
-    FakeCommandeRepository commandeRepository;
+    CommandeRepository commandeRepository;
 
     @InjectMocks
     ModifierCommande modifierCommande;

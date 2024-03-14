@@ -1,10 +1,9 @@
 package use_case.commande;
 
+import model.commande.Archive;
 import model.commande.Commande;
 import model.commande.CommandeArchiveRepository;
 import model.commande.CommandeRepository;
-
-import static model.commande.Commande.Statut.*;
 
 public class ArchiverCommande {
 
@@ -16,10 +15,10 @@ public class ArchiverCommande {
         this.commandeArchiveRepository = commandeArchiveRepository;
     }
 
-    public void archiverCommande(Long idCommande){
+    public Archive archiverCommande(Long idCommande){
         Commande commande = commandeRepository.findOne(idCommande);
         commandeRepository.delete(commande.getId());
-        commandeArchiveRepository.save(commande);
+        return commandeArchiveRepository.save(commande);
     }
 
 }
