@@ -1,4 +1,4 @@
-package use_case.commande;
+package model.commande;
 
 import model.commande.Commande;
 

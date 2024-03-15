@@ -31,29 +31,49 @@ public class Commande extends AuditEntity {
         TERMINER
     }
 
-    public boolean isCommandeArchivable() {
+    public boolean estArchivable() {
         return TERMINER.equals(this.statut);
     }
 
-    public boolean isCommandePrise() {
+    public boolean estPrise() {
         return EN_ATTENTE.equals(this.statut);
     }
 
-    public boolean isCommandeEnCuisine() {
+    public boolean estEnCuisine() {
         return EN_COURS.equals(this.statut);
     }
 
-    public boolean isCommandePrete() {
+    public boolean estPrete() {
         return PRETE.equals(this.statut);
     }
 
-    public boolean isCommandeServie() {
+    public boolean estServie() {
         return SERVIE.equals(this.statut);
     }
 
-    public boolean isProduitsPresent() {
+    public boolean nestPasVide() {
         return this.produits != null && !this.produits.isEmpty();
     }
+
+    public void archive() {
+        if (!this.estArchivable()) {
+            throw new CommandeStatutNonComformeException(this.getStatut());
+        }
+    }
+
+    public void vide() {
+        if (!this.nestPasVide()) {
+            throw new CommandeVideException();
+        }
+    }
+
+    public void ajoutProduit() {
+        if (!this.estServie()) {
+            throw new CommandeStatutNonComformeException(this.getStatut());
+        }
+    }
+
+    public boolean equals(Commande commande) {
+        return this.id.equals(commande.id);
+    }
 }
-
-

@@ -1,18 +1,12 @@
 package use_case.commande;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import model.commande.Commande;
 import model.commande.CommandeRepository;
+import model.commande.CommandeStatutNonComformeException;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.util.List.copyOf;
 import static model.commande.Commande.Statut.EN_ATTENTE;
 
 public class ModifierCommande {
@@ -24,30 +18,28 @@ public class ModifierCommande {
     }
 
     public Commande modifierStatut(Long idCommande, Commande.Statut statut) {
-
-        //return commandeRepository.save(commandeRepository.findOne(idCommande).withStatut(statut));
         Commande commande = commandeRepository.findOne(idCommande);
         return switch (statut) {
             case EN_ATTENTE, TERMINER -> {
-                if (commande.isCommandeServie()) {
+                if (commande.estServie()) {
                     yield commande.withStatut(statut);
                 }
                 throw new CommandeStatutNonComformeException(commande.getStatut());
             }
             case EN_COURS -> {
-                if (commande.isCommandePrise()) {
+                if (commande.estPrise()) {
                     yield commande.withStatut(statut);
                 }
                 throw new CommandeStatutNonComformeException(commande.getStatut());
             }
             case PRETE -> {
-                if (commande.isCommandeEnCuisine()) {
+                if (commande.estEnCuisine()) {
                     yield commande.withStatut(statut);
                 }
                 throw new CommandeStatutNonComformeException(commande.getStatut());
             }
             case SERVIE -> {
-                if (commande.isCommandePrete()) {
+                if (commande.estPrete()) {
                     yield commande.withStatut(statut);
                 }
                 throw new CommandeStatutNonComformeException(commande.getStatut());
@@ -57,17 +49,6 @@ public class ModifierCommande {
     }
 
     public Commande modifierTable(Long idCommande, Long idTable) {
-        //return commandeRepository.save(commandeRepository.findOne(idCommande).withTable(idTable));
         return commandeRepository.findOne(idCommande).withTable(idTable);
-    }
-
-    public Commande ajouterProduit(Long idCommande, List<Long> idProduits) {
-        final Commande commande = commandeRepository.findOne(idCommande);
-        if (commande.isCommandeServie()) {
-            final Commande commandeReprise = modifierStatut(commande.getId(), EN_ATTENTE);
-            return commandeReprise.withProduits(Stream.concat(commandeReprise.getProduits().stream(), idProduits.stream()).toList());
-        }
-        throw new CommandeStatutNonComformeException(commande.getStatut());
-//        commandeRepository.save(commande);
     }
 }

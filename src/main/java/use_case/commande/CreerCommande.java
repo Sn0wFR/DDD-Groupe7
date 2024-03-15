@@ -9,17 +9,13 @@ import static model.commande.Commande.Statut.*;
 public class CreerCommande {
 
     public Commande creationCommande(List<Long> idProduits, Long idTable) {
-
-        Commande commmande = Commande.builder()
+        Commande commande = Commande.builder()
                 .produits(idProduits)
                 .table(idTable)
                 .statut(EN_ATTENTE)
                 .build();
-
-        if (commmande.isProduitsPresent()) {
-            return commmande;
-        }
-        throw new RuntimeException();
+        commande.vide();
+        return commande;
     }
 
 }

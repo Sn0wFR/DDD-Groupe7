@@ -10,7 +10,7 @@ public class ListerCommande {
 
     private final CommandeRepository commandeRepository;
 
-    public ListerCommande(CommandeRepository commandeRepository, CommandeArchiveRepository commandeArchiveRepository) {
+    public ListerCommande(CommandeRepository commandeRepository) {
         this.commandeRepository = commandeRepository;
     }
 

@@ -8,4 +8,8 @@ import model.AuditEntity;
 @RequiredArgsConstructor
 public class Archive extends AuditEntity {
     Long id;
+
+    public boolean equals(Archive archive) {
+        return this.id.equals(archive.id);
+    }
 }
