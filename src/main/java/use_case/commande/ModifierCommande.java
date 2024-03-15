@@ -24,8 +24,36 @@ public class ModifierCommande {
     }
 
     public Commande modifierStatut(Long idCommande, Commande.Statut statut) {
+
         //return commandeRepository.save(commandeRepository.findOne(idCommande).withStatut(statut));
-        return commandeRepository.findOne(idCommande).withStatut(statut);
+        Commande commande = commandeRepository.findOne(idCommande);
+        return switch (statut) {
+            case EN_ATTENTE, TERMINER -> {
+                if (commande.isCommandeServie()) {
+                    yield commande.withStatut(statut);
+                }
+                throw new CommandeStatutNonComformeException(commande.getStatut());
+            }
+            case EN_COURS -> {
+                if (commande.isCommandePrise()) {
+                    yield commande.withStatut(statut);
+                }
+                throw new CommandeStatutNonComformeException(commande.getStatut());
+            }
+            case PRETE -> {
+                if (commande.isCommandeEnCuisine()) {
+                    yield commande.withStatut(statut);
+                }
+                throw new CommandeStatutNonComformeException(commande.getStatut());
+            }
+            case SERVIE -> {
+                if (commande.isCommandePrete()) {
+                    yield commande.withStatut(statut);
+                }
+                throw new CommandeStatutNonComformeException(commande.getStatut());
+            }
+            default -> throw new CommandeStatutNonComformeException(statut);
+        };
     }
 
     public Commande modifierTable(Long idCommande, Long idTable) {
@@ -42,5 +70,4 @@ public class ModifierCommande {
         throw new CommandeStatutNonComformeException(commande.getStatut());
 //        commandeRepository.save(commande);
     }
-
 }

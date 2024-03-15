@@ -43,6 +43,10 @@ public class Commande extends AuditEntity {
         return EN_COURS.equals(this.statut);
     }
 
+    public boolean isCommandePrete() {
+        return PRETE.equals(this.statut);
+    }
+
     public boolean isCommandeServie() {
         return SERVIE.equals(this.statut);
     }
