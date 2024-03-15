@@ -17,6 +17,9 @@ public class ArchiverCommande {
 
     public Archive archiverCommande(Long idCommande){
         Commande commande = commandeRepository.findOne(idCommande);
+        if (!commande.isCommandeArchivable()) {
+            throw new CommandeStatutNonComformeException(commande.getStatut());
+        }
         commandeRepository.delete(commande.getId());
         return commandeArchiveRepository.save(commande);
     }
