@@ -1,7 +1,9 @@
 package use_case.commande;
 
 import model.commande.*;
-import model.commande.Commande.Statut;
+import model.commande.statut.CommandeStatutNonComformeException;
+import model.commande.statut.StatutEnCours;
+import model.commande.statut.StatutTerminer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static model.commande.Commande.Statut.EN_COURS;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -26,7 +27,7 @@ public class ArchiverCommandeTest {
 
     Id idCommande = new Id(1L);
     Id idArchive = new Id(1L);
-    Commande stubFind = Commande.builder().id(idCommande).statut(Statut.TERMINER).build();
+    Commande stubFind = Commande.builder().id(idCommande).statut(new StatutTerminer()).build();
     Archive stubArchive = Archive.builder().id(idArchive).build();
 
 
@@ -46,7 +47,7 @@ public class ArchiverCommandeTest {
     @Test
     void givenWrongStatut_whenArchiverCommande_shouldThrowCommandeNonComformeException() {
         when(commandeRepository.findOne(any()))
-                .thenReturn(stubFind.withStatut(EN_COURS));
+                .thenReturn(stubFind.withStatut(new StatutEnCours()));
 
         assertThrows(
                 CommandeStatutNonComformeException.class,

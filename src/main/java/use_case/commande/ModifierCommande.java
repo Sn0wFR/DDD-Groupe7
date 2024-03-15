@@ -2,7 +2,7 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
-import model.commande.CommandeStatutNonComformeException;
+import model.commande.statut.*;
 import model.commande.Id;
 
 
@@ -14,35 +14,10 @@ public class ModifierCommande {
         this.commandeRepository = repository;
     }
 
-    public Commande modifierStatut(Id idCommande, Commande.Statut statut) {
+    public Commande modifierStatut(Id idCommande, boolean repriseCommande) {
         Commande commande = commandeRepository.findOne(idCommande);
-        return switch (statut) {
-            case EN_ATTENTE, TERMINER -> {
-                if (commande.estServie()) {
-                    yield commande.withStatut(statut);
-                }
-                throw new CommandeStatutNonComformeException(commande.getStatut());
-            }
-            case EN_COURS -> {
-                if (commande.estPrise()) {
-                    yield commande.withStatut(statut);
-                }
-                throw new CommandeStatutNonComformeException(commande.getStatut());
-            }
-            case PRETE -> {
-                if (commande.estEnCuisine()) {
-                    yield commande.withStatut(statut);
-                }
-                throw new CommandeStatutNonComformeException(commande.getStatut());
-            }
-            case SERVIE -> {
-                if (commande.estPrete()) {
-                    yield commande.withStatut(statut);
-                }
-                throw new CommandeStatutNonComformeException(commande.getStatut());
-            }
-            default -> throw new CommandeStatutNonComformeException(statut);
-        };
+
+        return commande.withStatut(StatutFactory.build(commande.getStatut(), repriseCommande));
     }
 
     public Commande modifierTable(Id idCommande, Id idTable) {

@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.Id;
+import model.commande.statut.StatutEnAttente;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class CreerCommande {
         Commande commande = Commande.builder()
                 .produits(idProduits)
                 .table(idTable)
-                .statut(EN_ATTENTE)
+                .statut(new StatutEnAttente())
                 .build();
         commande.vide();
         return commande;

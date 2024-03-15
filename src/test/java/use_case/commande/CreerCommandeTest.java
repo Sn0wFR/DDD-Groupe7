@@ -4,6 +4,7 @@ package use_case.commande;
 import model.commande.Commande;
 import model.commande.CommandeVideException;
 import model.commande.Id;
+import model.commande.statut.StatutEnAttente;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ public class CreerCommandeTest {
 
         Assertions.assertEquals(idTable, commande.getTable());
         Assertions.assertIterableEquals(idProduits, commande.getProduits());
-        Assertions.assertEquals(EN_ATTENTE, commande.getStatut());
+        Assertions.assertEquals(new StatutEnAttente(), commande.getStatut());
     }
 
     @Test

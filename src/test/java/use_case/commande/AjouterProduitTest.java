@@ -2,8 +2,11 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
-import model.commande.CommandeStatutNonComformeException;
 import model.commande.Id;
+import model.commande.statut.CommandeStatutNonComformeException;
+import model.commande.statut.StatutEnAttente;
+import model.commande.statut.StatutEnCours;
+import model.commande.statut.StatutServie;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 
-import static model.commande.Commande.Statut.*;
+import static model.commande.Commande.Statut.SERVIE;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -33,7 +36,7 @@ public class AjouterProduitTest {
     Id idTable = new Id(2L);
     List<Id> idProduits = List.of(new Id(1L), new Id(2L), new Id(3L));
     List<Id> idProduits2 = List.of(new Id(1L), new Id(2L), new Id(3L), new Id(4L));
-    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(SERVIE).build();
+    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(new StatutServie()).build();
 
     @Test
     void givenIdCommandeIdProduits_whenAjouterProduit_shouldReturnCommandeWithIdCommandeIdProduits() {
@@ -41,7 +44,7 @@ public class AjouterProduitTest {
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
         Mockito.when(modifierCommande.modifierStatut(any(), any()))
-                .thenReturn(stub1.withStatut(EN_ATTENTE));
+                .thenReturn(stub1.withStatut(new StatutEnAttente()));
 
         Commande tested = ajouterProduit.ajouter(idCommande, idProduits);
         Assertions.assertEquals(idCommande, tested.getId());
@@ -50,9 +53,9 @@ public class AjouterProduitTest {
         Id newIdProduit = new Id(4L);
 
         Mockito.when(commandeRepository.findOne(any()))
-                .thenReturn(tested.withStatut(SERVIE));
+                .thenReturn(tested.withStatut(new StatutServie()));
         Mockito.when(modifierCommande.modifierStatut(any(), any()))
-                .thenReturn(tested.withStatut(EN_ATTENTE));
+                .thenReturn(tested.withStatut(new StatutEnAttente()));
 
         List<Id> produitsToAdd = List.of(newIdProduit);
         tested = ajouterProduit.ajouter(idCommande, produitsToAdd);
@@ -63,7 +66,7 @@ public class AjouterProduitTest {
     @Test
     void givenIncorrectStatut_whenAjouterProduit_shouldThrowCommandeStatutNonComformeException() {
         Mockito.when(commandeRepository.findOne(idCommande))
-                .thenReturn(stub1.withStatut(EN_COURS));
+                .thenReturn(stub1.withStatut(new StatutEnCours()));
 
         assertThrows(
                 CommandeStatutNonComformeException.class,

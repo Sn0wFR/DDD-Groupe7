@@ -3,6 +3,10 @@ package use_case.commande;
 import model.commande.Commande;
 import model.commande.CommandeRepository;
 import model.commande.Id;
+import model.commande.statut.GeneriqueStatut;
+import model.commande.statut.StatutEnAttente;
+import model.commande.statut.StatutEnCours;
+import model.commande.statut.StatutPrete;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,18 +32,18 @@ public class ModifierCommandeTest {
     @InjectMocks
     ModifierCommande modifierCommande;
 
-    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(EN_COURS).build();
+    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(new StatutEnCours()).build();
 
     @Test
     void givenIdCommandeStatut_whenModifierStatut_shouldReturnCommandeWithIdCommandeStatut() {
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
 
-        Commande.Statut statut = Commande.Statut.PRETE;
-        Commande commande = modifierCommande.modifierStatut(idCommande, statut);
+
+        Commande commande = modifierCommande.modifierStatut(idCommande, false);
 
         Assertions.assertEquals(idCommande, commande.getId());
-        Assertions.assertEquals(statut, commande.getStatut());
+        Assertions.assertEquals(new StatutPrete(), commande.getStatut());
     }
 
     @Test

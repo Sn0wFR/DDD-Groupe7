@@ -7,7 +7,6 @@ import model.commande.Id;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static model.commande.Commande.Statut.EN_ATTENTE;
 
 public class AjouterProduit {
 
@@ -22,7 +21,7 @@ public class AjouterProduit {
     public Commande ajouter(Id idCommande, List<Id> idProduits) {
         final Commande commande = commandeRepository.findOne(idCommande);
         commande.ajoutProduit();
-        final Commande commandeReprise = modifierCommande.modifierStatut(commande.getId(), EN_ATTENTE);
+        final Commande commandeReprise = modifierCommande.modifierStatut(commande.getId(), true);
         return commandeReprise.withProduits(Stream.concat(commandeReprise.getProduits().stream(), idProduits.stream()).toList());
 
     }

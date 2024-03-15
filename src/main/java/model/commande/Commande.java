@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.With;
 import model.AuditEntity;
+import model.commande.statut.*;
 
 import java.util.List;
 
@@ -21,34 +22,40 @@ public class Commande extends AuditEntity {
     @With
     Id table;
     @With
-    Statut statut;
+    GeneriqueStatut statut;
 
     public enum Statut {
-        EN_ATTENTE,
-        EN_COURS,
-        PRETE,
-        SERVIE,
-        TERMINER
+        EN_ATTENTE("En attente"),
+        EN_COURS("En cours"),
+        PRETE("Prete"),
+        SERVIE("Servie"),
+        TERMINER("Terminer");
+
+        final String label;
+
+        Statut(String label) {
+            this.label = label;
+        }
     }
 
     public boolean estArchivable() {
-        return TERMINER.equals(this.statut);
+        return this.statut instanceof StatutTerminer;
     }
 
     public boolean estPrise() {
-        return EN_ATTENTE.equals(this.statut);
+        return this.statut instanceof StatutEnAttente;
     }
 
     public boolean estEnCuisine() {
-        return EN_COURS.equals(this.statut);
+        return this.statut instanceof StatutEnCours;
     }
 
     public boolean estPrete() {
-        return PRETE.equals(this.statut);
+        return this.statut instanceof StatutPrete;
     }
 
     public boolean estServie() {
-        return SERVIE.equals(this.statut);
+        return this.statut instanceof StatutServie;
     }
 
     public boolean nestPasVide() {
