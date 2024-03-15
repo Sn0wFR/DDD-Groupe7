@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static model.commande.Commande.Statut.EN_ATTENTE;
+import static model.commande.Commande.Statut.EN_COURS;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +29,7 @@ public class ModifierCommandeTest {
     @InjectMocks
     ModifierCommande modifierCommande;
 
-    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(EN_ATTENTE).build();
+    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(EN_COURS).build();
 
     @Test
     void givenIdCommandeStatut_whenModifierStatut_shouldReturnCommandeWithIdCommandeStatut(){

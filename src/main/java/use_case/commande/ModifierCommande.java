@@ -4,10 +4,6 @@ import model.commande.Commande;
 import model.commande.CommandeRepository;
 import model.commande.CommandeStatutNonComformeException;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import static model.commande.Commande.Statut.EN_ATTENTE;
 
 public class ModifierCommande {
 

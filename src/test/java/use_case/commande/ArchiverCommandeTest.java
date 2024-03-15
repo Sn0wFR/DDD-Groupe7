@@ -4,6 +4,8 @@ import model.commande.Archive;
 import model.commande.Commande;
 import model.commande.CommandeArchiveRepository;
 import model.commande.CommandeRepository;
+import model.commande.Commande.Statut;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +31,7 @@ public class ArchiverCommandeTest {
     @Test
     void givenIdCommande_whenArchiverCommande_shouldReturnArchive(){
 
-        Commande stubFind = Commande.builder().id(idCommande).build();
+        Commande stubFind = Commande.builder().id(idCommande).statut(Statut.TERMINER).build();
         Archive stubArchive = Archive.builder().id(idArchive).build();
 
         Mockito.when(commandeRepository.findOne(any()))
@@ -37,7 +39,7 @@ public class ArchiverCommandeTest {
 
         Mockito.when(commandeArchiveRepository.save(any()))
                 .thenReturn(stubArchive);
-
+        
         Archive archive = archiverCommande.archiverCommande(idCommande);
 
         Assertions.assertEquals(idArchive, archive.getId());

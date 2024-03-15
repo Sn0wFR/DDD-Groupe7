@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static model.commande.Commande.Statut.EN_ATTENTE;
+import static model.commande.Commande.Statut.EN_COURS;
+import static model.commande.Commande.Statut.SERVIE;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,17 +25,21 @@ public class AjouterProduitTest {
     AjouterProduit ajouterProduit;
     @Mock
     CommandeRepository commandeRepository;
+    @Mock
+    ModifierCommande modifierCommande;
 
     Long idCommande = 1L;
     Long idTable = 2L;
     List<Long> idProduits = List.of(1L, 2L, 3L);
-    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(EN_ATTENTE).build();
+    Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(SERVIE).build();
 
     @Test
     void givenIdCommandeIdProduits_whenAjouterProduit_shouldReturnCommandeWithIdCommandeIdProduits() {
 
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
+        Mockito.when(modifierCommande.modifierStatut(any(), any()))
+                .thenReturn(stub1.withStatut(EN_ATTENTE));
 
         Commande tested = ajouterProduit.ajouter(idCommande, idProduits);
         Assertions.assertEquals(idCommande, tested.getId());
@@ -42,7 +48,9 @@ public class AjouterProduitTest {
         Long newIdProduit = 4L;
 
         Mockito.when(commandeRepository.findOne(any()))
-                .thenReturn(tested);
+                .thenReturn(tested.withStatut(SERVIE));
+        Mockito.when(modifierCommande.modifierStatut(any(), any()))
+                .thenReturn(tested.withStatut(EN_ATTENTE));
 
         List<Long> produitsToAdd = List.of(newIdProduit);
         tested = ajouterProduit.ajouter(idCommande, produitsToAdd);
