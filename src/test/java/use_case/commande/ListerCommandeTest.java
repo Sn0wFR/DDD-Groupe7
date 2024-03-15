@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
+import model.commande.Id;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,8 +23,11 @@ public class ListerCommandeTest {
     @Mock
     CommandeRepository commandeRepository;
 
-    List<Commande> commandes = List.of(Commande.builder().id(1L).build(), Commande.builder().id(2L).build());
-    Commande commande = Commande.builder().id(1L).build();
+    Id id1 = new Id(1L);
+    Id id2 = new Id(2L);
+
+    List<Commande> commandes = List.of(Commande.builder().id(id1).build(), Commande.builder().id(id2).build());
+    Commande commande = Commande.builder().id(id1).build();
 
     @Test
     void whenGetAll_shouldReturnAllCommandes() {
@@ -40,7 +44,7 @@ public class ListerCommandeTest {
         when(commandeRepository.findAllByIds(any()))
                 .thenReturn(commandes);
 
-        List<Commande> tested = listerCommande.getAllByIds(List.of(1L, 2L));
+        List<Commande> tested = listerCommande.getAllByIds(List.of(id1.id(), id2.id()));
 
         assertEquals(commandes, tested);
     }
@@ -50,7 +54,7 @@ public class ListerCommandeTest {
         when(commandeRepository.findOne(any()))
                 .thenReturn(commande);
 
-        Commande tested = listerCommande.getOne(1L);
+        Commande tested = listerCommande.getOne(id1.id());
 
         assertEquals(commande, tested);
     }

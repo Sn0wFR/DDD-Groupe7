@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
+import model.commande.Id;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,17 +10,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Collections;
 import java.util.List;
 
-import static model.commande.Commande.Statut.EN_ATTENTE;
 import static model.commande.Commande.Statut.EN_COURS;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class ModifierCommandeTest {
 
-    Long idCommande = 1L;
+    Id idCommande = new Id(1L);
     Long idTable = 2L;
 
     List<Long> idProduits = List.of(1L,2L,3L);
@@ -49,7 +50,7 @@ public class ModifierCommandeTest {
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
 
-        Commande commande = modifierCommande.modifierTable(idCommande, idTable);
+        Commande commande = modifierCommande.modifierTable(idCommande.id(), idTable);
 
         Assertions.assertEquals(idCommande, commande.getId());
         Assertions.assertEquals(idTable, commande.getTable());

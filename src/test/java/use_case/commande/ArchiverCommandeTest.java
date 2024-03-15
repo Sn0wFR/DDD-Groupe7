@@ -1,11 +1,7 @@
 package use_case.commande;
 
-import model.commande.Archive;
-import model.commande.Commande;
-import model.commande.CommandeArchiveRepository;
-import model.commande.CommandeRepository;
+import model.commande.*;
 import model.commande.Commande.Statut;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +22,8 @@ public class ArchiverCommandeTest {
     @InjectMocks
     ArchiverCommande archiverCommande;
 
-    Long idCommande = 4L;
-    Long idArchive = 1L;
+    Id idCommande = new Id(1L);
+    Id idArchive = new Id(1L);
     @Test
     void givenIdCommande_whenArchiverCommande_shouldReturnArchive(){
 
@@ -39,8 +35,8 @@ public class ArchiverCommandeTest {
 
         Mockito.when(commandeArchiveRepository.save(any()))
                 .thenReturn(stubArchive);
-        
-        Archive archive = archiverCommande.archiverCommande(idCommande);
+
+        Archive archive = archiverCommande.archiverCommande(idCommande.id());
 
         Assertions.assertEquals(idArchive, archive.getId());
 

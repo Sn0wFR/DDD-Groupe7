@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Archive;
 import model.commande.CommandeArchiveRepository;
+import model.commande.Id;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,8 +24,10 @@ public class ListerArchiveTest {
     @Mock
     CommandeArchiveRepository commandeArchiveRepository;
 
-    List<Archive> archives = List.of(new Archive(1L), new Archive(2L));
-    Archive archive = new Archive(1L);
+    Id id1 = new Id(1L);
+    Id id2 = new Id(2L);
+    List<Archive> archives = List.of(new Archive(id1), new Archive(id2));
+    Archive archive = new Archive(id1);
 
     @Test
     void whenFindAll_ShouldReturnAllArchives() {
@@ -41,7 +44,7 @@ public class ListerArchiveTest {
         when(commandeArchiveRepository.findAllByIds(any()))
                 .thenReturn(archives);
 
-        List<Archive> tested = listerArchive.getAllByIds(List.of(1L, 2L));
+        List<Archive> tested = listerArchive.getAllByIds(List.of(id1.id(), id2.id()));
 
         assertEquals(archives, tested);
     }
@@ -51,7 +54,7 @@ public class ListerArchiveTest {
         when(commandeArchiveRepository.findOne(any()))
                 .thenReturn(archive);
 
-        Archive tested = listerArchive.getOne(1L);
+        Archive tested = listerArchive.getOne(id1.id());
 
         assertEquals(archive, tested);
     }
