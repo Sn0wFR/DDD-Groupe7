@@ -50,6 +50,10 @@ public class Commande extends AuditEntity {
     public boolean isCommandeServie() {
         return SERVIE.equals(this.statut);
     }
+
+    public boolean isProduitsPresent() {
+        return this.produits != null && !this.produits.isEmpty();
+    }
 }
 
 
