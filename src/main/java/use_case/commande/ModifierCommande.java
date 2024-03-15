@@ -3,6 +3,7 @@ package use_case.commande;
 import model.commande.Commande;
 import model.commande.CommandeRepository;
 import model.commande.CommandeStatutNonComformeException;
+import model.commande.Id;
 
 
 public class ModifierCommande {
@@ -13,8 +14,8 @@ public class ModifierCommande {
         this.commandeRepository = repository;
     }
 
-    public Commande modifierStatut(Long idCommande, Commande.Statut statut) {
-        Commande commande = commandeRepository.findOne(idCommande);
+    public Commande modifierStatut(Id idCommande, Commande.Statut statut) {
+        Commande commande = commandeRepository.findOne(idCommande.id());
         return switch (statut) {
             case EN_ATTENTE, TERMINER -> {
                 if (commande.estServie()) {
