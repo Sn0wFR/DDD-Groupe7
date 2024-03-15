@@ -15,7 +15,7 @@ import static model.commande.Commande.Statut.*;
 @RequiredArgsConstructor
 public class Commande extends AuditEntity {
 
-    Long id;
+    Id id;
     @With
     List<Long> produits;
     @With
