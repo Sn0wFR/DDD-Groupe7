@@ -2,6 +2,7 @@ package use_case.commande;
 
 
 import model.commande.Commande;
+import model.commande.CommandeVideException;
 import model.commande.Id;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static model.commande.Commande.Statut.EN_ATTENTE;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class CreerCommandeTest {
@@ -22,10 +24,15 @@ public class CreerCommandeTest {
     @Test
     void givenIdProduitIdTable_whenCreationCommande_shouldReturnCommandeWithIdProduitsIdTableStatutEnAttente() {
         Commande commande = creerCommande.creationCommande(idProduits, idTable);
+
         Assertions.assertEquals(idTable, commande.getTable());
         Assertions.assertIterableEquals(idProduits, commande.getProduits());
         Assertions.assertEquals(EN_ATTENTE, commande.getStatut());
-
     }
 
+    @Test
+    void givenNoProduits_whenCreationCommande_shouldThrowCommandeVideException() {
+        assertThrows(CommandeVideException.class,
+                () -> creerCommande.creationCommande(List.of(), idTable));
+    }
 }
