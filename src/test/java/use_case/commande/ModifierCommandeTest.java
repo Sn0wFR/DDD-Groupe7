@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class ModifierCommandeTest {
 
     Id idCommande = new Id(1L);
-    Long idTable = 2L;
+    Id idTable = new Id(2L);
 
     @Mock
     CommandeRepository commandeRepository;

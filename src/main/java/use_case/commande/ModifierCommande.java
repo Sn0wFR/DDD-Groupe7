@@ -45,7 +45,7 @@ public class ModifierCommande {
         };
     }
 
-    public Commande modifierTable(Id idCommande, Long idTable) {
+    public Commande modifierTable(Id idCommande, Id idTable) {
         return commandeRepository.findOne(idCommande).withTable(idTable);
     }
 }

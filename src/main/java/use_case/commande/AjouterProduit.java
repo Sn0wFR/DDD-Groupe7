@@ -19,7 +19,7 @@ public class AjouterProduit {
         this.modifierCommande = modifierCommande;
     }
 
-    public Commande ajouter(Id idCommande, List<Long> idProduits) {
+    public Commande ajouter(Id idCommande, List<Id> idProduits) {
         final Commande commande = commandeRepository.findOne(idCommande);
         commande.ajoutProduit();
         final Commande commandeReprise = modifierCommande.modifierStatut(commande.getId(), EN_ATTENTE);

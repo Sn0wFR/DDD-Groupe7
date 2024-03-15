@@ -17,9 +17,9 @@ public class Commande extends AuditEntity {
 
     Id id;
     @With
-    List<Long> produits;
+    List<Id> produits;
     @With
-    Long table;
+    Id table;
     @With
     Statut statut;
 

@@ -29,8 +29,9 @@ public class AjouterProduitTest {
     ModifierCommande modifierCommande;
 
     Id idCommande = new Id(1L);
-    Long idTable = 2L;
-    List<Long> idProduits = List.of(1L, 2L, 3L);
+    Id idTable = new Id(2L);
+    List<Id> idProduits = List.of(new Id(1L), new Id(2L), new Id(3L));
+    List<Id> idProduits2 = List.of(new Id(1L), new Id(2L), new Id(3L), new Id(4L));
     Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(SERVIE).build();
 
     @Test
@@ -45,18 +46,17 @@ public class AjouterProduitTest {
         Assertions.assertEquals(idCommande, tested.getId());
         Assertions.assertIterableEquals(idProduits, tested.getProduits());
 
-        Long newIdProduit = 4L;
+        Id newIdProduit = new Id(4L);
 
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(tested.withStatut(SERVIE));
         Mockito.when(modifierCommande.modifierStatut(any(), any()))
                 .thenReturn(tested.withStatut(EN_ATTENTE));
 
-        List<Long> produitsToAdd = List.of(newIdProduit);
+        List<Id> produitsToAdd = List.of(newIdProduit);
         tested = ajouterProduit.ajouter(idCommande, produitsToAdd);
 
-        List<Long> expected = List.of(1L, 2L, 3L, 4L);
-        Assertions.assertIterableEquals(expected, tested.getProduits());
+        Assertions.assertIterableEquals(idProduits2, tested.getProduits());
     }
 
 }
