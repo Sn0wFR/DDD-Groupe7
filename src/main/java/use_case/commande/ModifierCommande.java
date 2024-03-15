@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.List.copyOf;
+import static model.commande.Commande.Statut.EN_ATTENTE;
 
 public class ModifierCommande {
 
@@ -33,8 +34,12 @@ public class ModifierCommande {
     }
 
     public Commande ajouterProduit(Long idCommande, List<Long> idProduits) {
-        Commande commande = commandeRepository.findOne(idCommande);
-        return commande.withProduits(Stream.concat(commande.getProduits().stream(), idProduits.stream()).toList());
+        final Commande commande = commandeRepository.findOne(idCommande);
+        if (commande.isCommandeServie()) {
+            final Commande commandeReprise = modifierStatut(commande.getId(), EN_ATTENTE);
+            return commandeReprise.withProduits(Stream.concat(commandeReprise.getProduits().stream(), idProduits.stream()).toList());
+        }
+        throw new CommandeStatutNonComformeException(commande.getStatut());
 //        commandeRepository.save(commande);
     }
 

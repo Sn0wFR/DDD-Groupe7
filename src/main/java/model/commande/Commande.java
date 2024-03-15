@@ -8,7 +8,7 @@ import model.AuditEntity;
 
 import java.util.List;
 
-import static model.commande.Commande.Statut.TERMINER;
+import static model.commande.Commande.Statut.*;
 
 @Value
 @Builder
@@ -31,8 +31,20 @@ public class Commande extends AuditEntity {
         TERMINER
     }
 
-    public boolean isCommandeArchivable(Commande commande) {
-        return TERMINER.equals(commande.statut);
+    public boolean isCommandeArchivable() {
+        return TERMINER.equals(this.statut);
+    }
+
+    public boolean isCommandePrise() {
+        return EN_ATTENTE.equals(this.statut);
+    }
+
+    public boolean isCommandeEnCuisine() {
+        return EN_COURS.equals(this.statut);
+    }
+
+    public boolean isCommandeServie() {
+        return SERVIE.equals(this.statut);
     }
 }
 
