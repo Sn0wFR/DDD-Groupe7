@@ -36,7 +36,7 @@ public class ArchiverCommandeTest {
         Mockito.when(commandeArchiveRepository.save(any()))
                 .thenReturn(stubArchive);
 
-        Archive archive = archiverCommande.archiverCommande(idCommande.id());
+        Archive archive = archiverCommande.archiverCommande(idCommande);
 
         Assertions.assertEquals(idArchive, archive.getId());
 

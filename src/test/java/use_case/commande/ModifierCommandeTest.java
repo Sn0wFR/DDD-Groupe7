@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
-import java.util.List;
 
 import static model.commande.Commande.Statut.EN_COURS;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +22,6 @@ public class ModifierCommandeTest {
     Id idCommande = new Id(1L);
     Long idTable = 2L;
 
-    List<Long> idProduits = List.of(1L,2L,3L);
     @Mock
     CommandeRepository commandeRepository;
 
@@ -33,7 +31,7 @@ public class ModifierCommandeTest {
     Commande stub1 = Commande.builder().id(idCommande).produits(Collections.emptyList()).table(idTable).statut(EN_COURS).build();
 
     @Test
-    void givenIdCommandeStatut_whenModifierStatut_shouldReturnCommandeWithIdCommandeStatut(){
+    void givenIdCommandeStatut_whenModifierStatut_shouldReturnCommandeWithIdCommandeStatut() {
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
 
@@ -45,12 +43,12 @@ public class ModifierCommandeTest {
     }
 
     @Test
-    void givenIdCommandeIdTable_whenModifierTable_shouldReturnCommandeWithIdCommandeIdTable(){
+    void givenIdCommandeIdTable_whenModifierTable_shouldReturnCommandeWithIdCommandeIdTable() {
 
         Mockito.when(commandeRepository.findOne(any()))
                 .thenReturn(stub1);
 
-        Commande commande = modifierCommande.modifierTable(idCommande.id(), idTable);
+        Commande commande = modifierCommande.modifierTable(idCommande, idTable);
 
         Assertions.assertEquals(idCommande, commande.getId());
         Assertions.assertEquals(idTable, commande.getTable());

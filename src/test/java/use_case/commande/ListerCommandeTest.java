@@ -44,7 +44,7 @@ public class ListerCommandeTest {
         when(commandeRepository.findAllByIds(any()))
                 .thenReturn(commandes);
 
-        List<Commande> tested = listerCommande.getAllByIds(List.of(id1.id(), id2.id()));
+        List<Commande> tested = listerCommande.getAllByIds(List.of(id1, id2));
 
         assertEquals(commandes, tested);
     }
@@ -54,7 +54,7 @@ public class ListerCommandeTest {
         when(commandeRepository.findOne(any()))
                 .thenReturn(commande);
 
-        Commande tested = listerCommande.getOne(id1.id());
+        Commande tested = listerCommande.getOne(id1);
 
         assertEquals(commande, tested);
     }

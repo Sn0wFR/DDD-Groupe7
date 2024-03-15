@@ -15,7 +15,7 @@ public class ModifierCommande {
     }
 
     public Commande modifierStatut(Id idCommande, Commande.Statut statut) {
-        Commande commande = commandeRepository.findOne(idCommande.id());
+        Commande commande = commandeRepository.findOne(idCommande);
         return switch (statut) {
             case EN_ATTENTE, TERMINER -> {
                 if (commande.estServie()) {
@@ -45,7 +45,7 @@ public class ModifierCommande {
         };
     }
 
-    public Commande modifierTable(Long idCommande, Long idTable) {
+    public Commande modifierTable(Id idCommande, Long idTable) {
         return commandeRepository.findOne(idCommande).withTable(idTable);
     }
 }

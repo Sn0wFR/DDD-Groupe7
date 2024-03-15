@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Archive;
 import model.commande.CommandeArchiveRepository;
+import model.commande.Id;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class ListerArchive {
         return commandeArchiveRepository.findAll();
     }
 
-    public List<Archive> getAllByIds(List<Long> ids) {
+    public List<Archive> getAllByIds(List<Id> ids) {
         return commandeArchiveRepository.findAllByIds(ids);
     }
 
-    public Archive getOne(Long id) {
+    public Archive getOne(Id id) {
         return commandeArchiveRepository.findOne(id);
     }
 }

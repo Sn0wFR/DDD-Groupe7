@@ -41,7 +41,7 @@ public class AjouterProduitTest {
         Mockito.when(modifierCommande.modifierStatut(any(), any()))
                 .thenReturn(stub1.withStatut(EN_ATTENTE));
 
-        Commande tested = ajouterProduit.ajouter(idCommande.id(), idProduits);
+        Commande tested = ajouterProduit.ajouter(idCommande, idProduits);
         Assertions.assertEquals(idCommande, tested.getId());
         Assertions.assertIterableEquals(idProduits, tested.getProduits());
 
@@ -53,7 +53,7 @@ public class AjouterProduitTest {
                 .thenReturn(tested.withStatut(EN_ATTENTE));
 
         List<Long> produitsToAdd = List.of(newIdProduit);
-        tested = ajouterProduit.ajouter(idCommande.id(), produitsToAdd);
+        tested = ajouterProduit.ajouter(idCommande, produitsToAdd);
 
         List<Long> expected = List.of(1L, 2L, 3L, 4L);
         Assertions.assertIterableEquals(expected, tested.getProduits());

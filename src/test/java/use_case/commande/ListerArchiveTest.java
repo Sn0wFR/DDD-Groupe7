@@ -44,7 +44,7 @@ public class ListerArchiveTest {
         when(commandeArchiveRepository.findAllByIds(any()))
                 .thenReturn(archives);
 
-        List<Archive> tested = listerArchive.getAllByIds(List.of(id1.id(), id2.id()));
+        List<Archive> tested = listerArchive.getAllByIds(List.of(id1, id2));
 
         assertEquals(archives, tested);
     }
@@ -54,7 +54,7 @@ public class ListerArchiveTest {
         when(commandeArchiveRepository.findOne(any()))
                 .thenReturn(archive);
 
-        Archive tested = listerArchive.getOne(id1.id());
+        Archive tested = listerArchive.getOne(id1);
 
         assertEquals(archive, tested);
     }

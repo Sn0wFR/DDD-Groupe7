@@ -8,8 +8,8 @@ public interface CommandeArchiveRepository {
 
     List<Archive> findAll();
 
-    List<Archive> findAllByIds(List<Long> ids);
+    List<Archive> findAllByIds(List<Id> ids);
 
-    Archive findOne(Long id);
+    Archive findOne(Id id);
 
 }

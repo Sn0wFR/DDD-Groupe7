@@ -6,11 +6,11 @@ public interface CommandeRepository {
 
     Commande save(Commande commande);
 
-    Commande findOne(Long id);
+    Commande findOne(Id id);
 
     List<Commande> findAll();
 
-    void delete(Long id);
+    void delete(Id id);
 
-    List<Commande> findAllByIds(List<Long> ids);
+    List<Commande> findAllByIds(List<Id> ids);
 }

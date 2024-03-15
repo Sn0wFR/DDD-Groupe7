@@ -2,6 +2,7 @@ package use_case.commande;
 
 import model.commande.Commande;
 import model.commande.CommandeRepository;
+import model.commande.Id;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,7 +19,7 @@ public class AjouterProduit {
         this.modifierCommande = modifierCommande;
     }
 
-    public Commande ajouter(Long idCommande, List<Long> idProduits) {
+    public Commande ajouter(Id idCommande, List<Long> idProduits) {
         final Commande commande = commandeRepository.findOne(idCommande);
         commande.ajoutProduit();
         final Commande commandeReprise = modifierCommande.modifierStatut(commande.getId(), EN_ATTENTE);
